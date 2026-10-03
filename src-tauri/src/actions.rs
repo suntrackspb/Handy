@@ -395,7 +395,10 @@ impl ShortcutAction for TranscribeAction {
 
         // Load ASR model and VAD model in parallel
         let kickoff_started = Instant::now();
-        tm.initiate_model_load();
+        let remote_asr = get_settings(app).remote_asr.enabled;
+        if !remote_asr {
+            tm.initiate_model_load();
+        }
         let rm_clone = Arc::clone(&rm);
         std::thread::spawn(move || {
             if let Err(e) = rm_clone.preload_vad() {
@@ -406,7 +409,7 @@ impl ShortcutAction for TranscribeAction {
 
         // Don't open the mic if nothing can transcribe the recording; the load
         // kicked off above fails and reports why.
-        if !tm.is_model_loaded() {
+        if !remote_asr && !tm.is_model_loaded() {
             let selected_model = get_settings(app).selected_model;
             if let Err(e) = app
                 .state::<Arc<ModelManager>>()
@@ -437,7 +440,8 @@ impl ShortcutAction for TranscribeAction {
         let model_supports_streaming = selected_model_info
             .as_ref()
             .map(|m| m.supports_streaming)
-            .unwrap_or(false);
+            .unwrap_or(false)
+            && !remote_asr;
         let vad_policy = if !settings.vad_enabled {
             VadPolicy::Disabled
         } else if model_supports_streaming {

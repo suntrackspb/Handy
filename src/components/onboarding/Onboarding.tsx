@@ -7,6 +7,7 @@ import type { ModelCardStatus } from "./ModelCard";
 import ModelCard, { isLegacySource } from "./ModelCard";
 import HandyTextLogo from "../icons/HandyTextLogo";
 import { useModelStore } from "../../stores/modelStore";
+import { RemoteAsr } from "../settings/RemoteAsr";
 
 interface OnboardingProps {
   onModelSelected: () => void;
@@ -170,6 +171,11 @@ const Onboarding: React.FC<OnboardingProps> = ({
 
       <div className="max-w-[600px] w-full mx-auto text-center flex-1 flex flex-col min-h-0">
         <div className="space-y-6 pb-6">
+          {!preview && (
+            <div className="text-left">
+              <RemoteAsr onEnabled={onModelSelected} />
+            </div>
+          )}
           {models.some((m: ModelInfo) => m.is_downloaded) && (
             <div className="space-y-3">
               <div className="text-left">

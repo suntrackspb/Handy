@@ -16,6 +16,7 @@ mod managers;
 mod memory;
 mod overlay;
 mod paste_tx;
+mod remote_asr;
 pub mod portable;
 mod secure_input;
 mod settings;
@@ -715,6 +716,10 @@ pub fn run(cli_args: CliArgs) {
             trigger_update_check,
             show_main_window_command,
             commands::cancel_operation,
+            remote_asr::set_remote_asr_settings,
+            remote_asr::remote_asr_status,
+            remote_asr::remote_asr_warmup,
+            remote_asr::remote_asr_unload,
             commands::is_portable,
             commands::is_update_checks_locked,
             commands::get_app_dir_path,

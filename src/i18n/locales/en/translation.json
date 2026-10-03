@@ -645,6 +645,27 @@
           "details": "Handy's local speech-to-text is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors."
         }
       }
+    },
+    "remoteAsr": {
+      "title": "Remote server (PersonalWhisper)",
+      "description": "Send recordings to your own server instead of a local model. The server transcribes and cleans the text.",
+      "token": "Access token",
+      "enable": "Use remote server",
+      "disable": "Switch back to local model",
+      "warmup": "Warm up",
+      "warming": "Warming up…",
+      "unload": "Free memory",
+      "requestFailed": "Server request failed: {{error}}",
+      "mode": {
+        "label": "Mode",
+        "clean": "Whisper + cleanup (LLM)",
+        "raw": "Whisper only"
+      },
+      "status": {
+        "unknown": "Server status: unknown",
+        "unreachable": "Server unreachable",
+        "ok": "Whisper {{whisper}} · LLM {{llm}} ({{model}})"
+      }
     }
   },
   "footer": {

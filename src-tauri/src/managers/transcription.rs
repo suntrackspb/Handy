@@ -1202,6 +1202,19 @@ impl TranscriptionManager {
             return Ok(String::new());
         }
 
+        // Remote ASR: the server does Whisper and cleanup, no local model involved.
+        {
+            let settings = get_settings(&self.app_handle);
+            if settings.remote_asr.enabled {
+                return crate::remote_asr::transcribe(
+                    &settings.remote_asr,
+                    &settings.custom_words,
+                    &settings.selected_language,
+                    &audio,
+                );
+            }
+        }
+
         // Check if model is loaded, if not try to load it
         {
             // If the model is loading, wait for it to complete.
